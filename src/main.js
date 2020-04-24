@@ -1,4 +1,7 @@
-//搜索框
+
+/**
+ * 搜索框动效
+ */
 const $searchButton = $('.searchForm>button')
 $('.searchForm>input').on({
     click: () => {
@@ -9,14 +12,54 @@ $('.searchForm>input').on({
     }
 })
 
+/**
+ * 弹窗参数
+ *
+ */
 
-//增加节点
-//输入框focus效果
 const $inputName = $('.input-name')
 const $inputUrl = $('.input-url')
 const $titleName = $('.title-name')
 const $titleUrl = $('.title-url')
 
+const addButton = document.querySelector('.addButton')
+const favDialog = document.querySelector('#favDialog')
+
+// const editButtonOne = document.querySelectorAll('.editButton')
+const favDialogEdit = document.querySelector('#favDialog-edit')
+
+const cancel = document.querySelector('#cancel')
+const cancelEdit = document.querySelector('#cancel-edit')
+
+const $inputNameEdit = $('#title-field-edit')
+const $inputUrlEdit =$('#url-field-edit')
+const $doneEdit = $('#done-edit')
+
+const $done = $('#done')
+const $deleteEdit = $('delete-edit')
+
+const x = localStorage.getItem('x')
+const xObject = JSON.parse(x)
+var hashMap = [
+    {name: 'stackoverflow', url: 'https://stackoverflow.com'},
+    {name: 'github', url: 'https://github.com'},
+    {name: '新浪微博', url: 'https://weibo.com'},
+    {name: '豆瓣', url: 'https://www.douban.com'}]
+
+const $itemBox = $('.itemBox')
+const $lastLi = $('.addItem')
+
+/**
+ * 首次登陆渲染页面
+ */
+debugger
+reload('async')
+
+
+/**
+ * 弹窗动效
+ */
+//输入框focus效果
 $inputName.focus(() =>{
     $titleName.addClass('focused')
 })
@@ -33,11 +76,23 @@ $inputUrl.blur(() =>{
     $titleUrl.removeClass('focused')
 })
 
+$inputNameEdit.focus(() =>{
+    $titleName.addClass('focused')
+})
 
-//添加快捷方式
-const addButton = document.querySelector('.addButton')
-const favDialog = document.querySelector('#favDialog')
+$inputNameEdit.blur(() =>{
+    $titleName.removeClass('focused')
+})
 
+$inputUrlEdit.focus(() =>{
+    $titleUrl.addClass('focused')
+})
+
+$inputUrlEdit.blur(() =>{
+    $titleUrl.removeClass('focused')
+})
+
+//点击添加按钮出现dialog
 addButton.addEventListener('click', function onOpen() {
     if (typeof favDialog.showModal === "function") {
         favDialog.showModal();
@@ -46,14 +101,50 @@ addButton.addEventListener('click', function onOpen() {
     };
 });
 
-//取消
-const cancel = document.querySelector('#cancel')
+
+
+
+//点击编辑按钮出现dialog
+action()
+function action() {
+    document.querySelectorAll('.editButton').forEach((item,index)=> {
+        item.addEventListener('click', function onOpen() {
+            if (typeof favDialogEdit.showModal === "function") {
+                favDialogEdit.showModal();
+            } else {
+                alert("The dialog API is not supported by this browser");
+            }
+            //获取原始值
+            let idValue = item.id
+            console.log('clicked div:' + idValue);
+            getHistoryValue(idValue)
+            return idValue
+            //编辑弹窗： 点击完成重新渲染节点
+            // $doneEdit.on('click', () => {
+            //     reload('edit',idValue)
+            // })
+
+            //编辑弹窗： 点击删除重新渲染
+            // $deleteEdit.on('click',() => {
+            //     reload('remove',idValue)
+            // })
+        })
+    })
+}
+
+
+
+//创建弹窗：点击取消关闭窗口
 cancel.addEventListener('click',(e)=>{
     favDialog.close();
 })
 
-//完成动效
-const $done = $('#done')
+//编辑弹窗：点击取消关闭窗口
+cancelEdit.addEventListener('click',(e)=>{
+    favDialogEdit.close();
+})
+
+//创建弹窗：点击完成动效
 $inputUrl.change(()=>{
     if ($inputUrl.val().length > 0 ){
         $done.removeAttr('disabled')
@@ -61,151 +152,8 @@ $inputUrl.change(()=>{
         $done.attr('disabled','disabled')
     }
 })
-//点击完成
-$done.on('click',()=>{
-    render()
-})
 
-//添加子节点
-
-const $itemBox = $('.itemBox')
-const $lastLi = $('.addItem')
-const x = localStorage.getItem('x')
-const xObject = JSON.parse(x)
-const pic = []
-const hashMap = xObject || [
-    {name: 'acfun', url: 'https://www.acfun.cn'},
-    {name: 'BiliBili', url: 'https://www.bilibili.com'}
-]
-const $titleFieldEdit = $('#title-field-edit')
-const $urlFieldEdit = $('#url-field-edit')
-const render = () => {
-    $itemBox.find('.item').remove()
-    hashMap.forEach((node,index) => {
-        const $li =  $(`
-                <div  class="itemContainer item" draggable="true" >
-                    <div class="itemLinkBox">
-                        <div class="itemWrapper">
-                            <div class="itemLogo">
-                                <svg class="icon">
-                                    <use xlink:href="#icon-Addto"></use>
-                                </svg>
-                            </div>
-                            <div class="itemTitle">${node.name}</div>
-                        </div>
-                    </div>
-                    <button class="editButton">
-                        <svg class="icon">
-                            <use xlink:href="#icon-point"></use>
-                        </svg>
-                    </button>
-                </div>
-        `).insertBefore($lastLi)
-
-        $li.on('click', () => {
-            window.open(node.url)
-        })
-
-        $li.on('click', '.editButton', (e) => {
-            e.stopPropagation() // 阻止冒泡
-        })
-        $titleFieldEdit.val() === node.name;
-        console.log($titleFieldEdit.val());
-        $urlFieldEdit.val() === node.url
-
-    })
-
-
-    //取消
-    const cancelEdit = document.querySelector('#cancel-edit')
-    cancelEdit.addEventListener('click',(e)=>{
-        favDialogEdit.close();
-    })
-
-    //打开编辑dialog
-    const editButton = document.querySelectorAll('.editButton')
-    const favDialogEdit = document.querySelector('#favDialog-edit')
-    const itemBox = document.querySelector('.itemBox')
-    const deleteEdit = document.querySelector('#delete-edit')
-    editButton.forEach((item,index)=>{
-        item.addEventListener('click', function onOpen() {
-            console.log('第一次'+index);
-            if (typeof favDialogEdit.showModal === "function") {
-                favDialogEdit.showModal();
-            } else {
-                alert("The dialog API is not supported by this browser");
-            }
-
-            //删除节点
-            deleteEdit.addEventListener('click',()=>{
-
-                console.log('第二次'+index)
-                console.log(hashMap);
-                const a = itemBox.removeChild(itemBox.children[index])
-                console.log(a);
-                const b = a.querySelector('.itemTitle')
-                console.log(b);
-                console.log(b.innerHTML);
-                for (let i = 0;i<hashMap.length;i++){
-                    if (b.innerHTML ===hashMap[i].name){
-                        hashMap.splice(i,1)
-                        break
-                    }
-                }
-
-                // hashMap.forEach(node=>{
-                //     if (b.innerHTML ===node.name){
-                //         hashMap.splice(index,1)
-                //
-                //     };
-                //
-                // })
-                // hashMap.splice(index, 1)
-                console.log(hashMap);
-                render()
-                favDialogEdit.close()
-
-            })
-            const titleFieldEdit = document.querySelector('#title-field-edit')
-            const urlFieldEdit = document.querySelector('#url-field-edit')
-            const titleEdit =  item.querySelector('.itemTitle')
-            const urlEdit = item.querySelector('.itemTitle')
-            titleFieldEdit.value === titleEdit.innerHTML
-
-        })
-
-    })
-}
-
-render()
-
-$done.on('click', () => {
-    let url = $inputUrl.val()
-    let name = $inputName.val()
-    if (url.indexOf('http') !== 0 && url.length!==0) {
-        url = 'https://' + url
-    }
-    hashMap.push({
-        name: name,
-        url: url
-    })
-    render()
-})
-
-
-window.onbeforeunload = () => {
-    const string = JSON.stringify(hashMap)
-    localStorage.setItem('x', string)
-}
-
-
-
-
-//默认名称和地址
-
-//完成
-const $inputUrlEdit =$('#url-field-edit')
-const $doneEdit = $('#done-edit')
+//编辑弹窗：点击完成动效
 $inputUrlEdit.change(()=>{
     if ($inputUrlEdit.val().length > 0 ){
         $doneEdit.removeAttr('disabled')
@@ -215,9 +163,164 @@ $inputUrlEdit.change(()=>{
 })
 
 
+//创建弹窗： 点击完成重新渲染节点
+$done.on('click', () => {
+    reload('create')
+})
+
+//编辑弹窗： 点击完成重新渲染节点
+$doneEdit.on('click', () => {
+    let index = action()
+    reload('edit',index)
+})
+
+//编辑弹窗： 点击删除重新渲染
+$deleteEdit.on('click',() => {
+    let index = action()
+    reload('remove',index)
+})
 
 
 
+/**
+ *
+ *  获取localstorage中的值
+ */
+function getLocalStorage() {
+    if (x){
+        return  xObject
+    }else{
+        return hashMap
+    }
+}
+
+/**
+ * 设置localstorage的值
+ * @param {Boolean} positive true:  内存 -> 本地（localstorage）
+ *                           false: 本地 -> 内存
+ */
+
+function asyncLocalStorage(positive) {
+    if (positive) {
+        const string = JSON.stringify(hashMap)
+        window.localStorage.setItem('x', string)
+    } else {
+        hashMap = getLocalStorage()
+    }
+}
+
+/**
+ *  获取历史记录
+ */
+const getHistoryValue = (index) => {
+    let content = hashMap[index]
+    let url = content.url
+    let name = content.name
+    document.querySelector('#title-field-edit').value = name
+    if (url.indexOf('http') !== 0 && url.length!==0) {
+        url = 'https://' + url
+    }
+    document.querySelector('#url-field-edit').value = url
+}
+
+/**
+ *  获得元素索引
+ */
+// const getIndex = () => {
+//     document.querySelectorAll('.editButton').forEach((item,index) => {
+//         item.addEventListener('click',() => {
+//             let idValue = item.id
+//             return idValue
+//         })
+//     })
+// }
 
 
+
+/**
+ * 重置
+ * ---
+ * @param {String} type   类型
+ * @param {Number} index  索引
+ * ---
+ */
+
+function reload(type,index) {
+    if (type === 'async'){
+        asyncLocalStorage(false)
+        createLi()
+    }else if(type === 'remove'){
+        hashMap.splice(index,1)
+        asyncLocalStorage(true)
+        createLi()
+    }else if(type === 'create'){
+        let url = $inputUrl.val()
+        let name = $inputName.val()
+        if (url.indexOf('http') !== 0 && url.length!==0) {
+            url = 'https://' + url
+        }
+        hashMap.push({
+            name: name,
+            url: url
+        })
+        asyncLocalStorage(true)
+        createLi()
+    }else if(type === 'edit'){
+        let url = $inputUrlEdit.val()
+        let name = $inputNameEdit.val()
+        if (url.indexOf('http') !== 0 && url.length!==0) {
+            url = 'https://' + url
+        }
+        hashMap.splice(index,1)
+        console.log(hashMap.splice(index, 1));
+        hashMap.splice(index,0,{
+            name: name,
+            url: url
+        })
+        console.log(hashMap);
+        asyncLocalStorage(true)
+        createLi()
+    }
+}
+
+
+
+/**
+ *
+ * 创建节点
+ */
+
+
+function createLi () {
+    $itemBox.find('.item').remove()
+    hashMap.forEach((node, index) => {
+        const $li = $(`
+                <div class="itemContainer item" draggable="true" >
+                    <div class="itemLinkBox">
+                        <div class="itemWrapper">
+                            <div class="itemLogo">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-valentine_-cupid-love-heart-god"></use>
+                                </svg>
+                            </div>
+                            <div class="itemTitle">${node.name}</div>
+                        </div>
+                    </div>
+                    <button class="editButton" id="${index}">
+                        <svg class="icon">
+                            <use xlink:href="#icon-point"></use>
+                        </svg>
+                    </button>
+                </div>
+        `).insertBefore($lastLi)
+        //item点击动效
+        $li.on('click', () => {
+            window.open(node.url)
+        })
+
+        $li.on('click', '.editButton', (e) => {
+            e.stopPropagation() // 阻止冒泡
+        })
+    })
+}
 
