@@ -1,0 +1,248 @@
+html{
+    --dark-mode-bg-rgb: 50, 54, 57;
+    --GG050-rgb: 248, 249, 250;
+    --GG100-rgb: 241, 243, 244;
+    --GG200-rgb: 232, 234, 237;
+    --GG300-rgb: 218, 220, 224;
+    --GG400-rgb: 189, 193, 198;
+    --GG500-rgb: 154, 160, 166;
+    --GG600-rgb: 128, 134, 139;
+    --GG700-rgb: 95, 99, 104;
+    --GG800-rgb: 60, 64, 67;
+    --GG900-rgb: 32, 33, 36;
+    --GB050-rgb: 232, 240, 254;
+    --GB100-rgb: 210, 227, 252;
+    --GB200-rgb: 174, 203, 250;
+    --GB300-rgb: 138, 180, 248;
+    --GB400-rgb: 102, 157, 246;
+    --GB500-rgb: 66, 133, 244;
+    --GB600-rgb: 26, 115, 232;
+    --GB700-rgb: 25, 103, 210;
+    --GB800-rgb: 24, 90, 188;
+    --GB900-rgb: 23, 78, 166;
+    --GB400-dark-rgb: 107, 165, 237;
+    --GB600-dark-rgb: 37, 129, 223;
+    --GR050-rgb: 252, 142, 230;
+    --GR100-rgb: 250, 210, 207;
+    --GR200-rgb: 246, 174, 169;
+    --GR300-rgb: 242, 139, 130;
+    --GR400-rgb: 238, 103, 92;
+    --GR500-rgb: 234, 67, 53;
+    --GR600-rgb: 217, 48, 37;
+    --GR700-rgb: 197, 34, 31;
+    --GR800-rgb: 179, 20, 18;
+    --GR900-rgb: 165, 14, 14;
+    --GR500-dark-rgb: 230, 106, 94;
+    --GR600-dark-rgb: 211, 59, 48;
+    --GR800-dark-rgb: 180, 27, 26;
+}
+
+
+#favDialog,#favDialog-edit {
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px 0 rgba(var(--GG800-rgb), 0.3), 0 4px 8px 3px rgba(var(--GG800-rgb), 0.15);
+    margin:0;
+    min-width: 352px;
+    padding: 16px;
+    z-index: 10000;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Segoe UI', 'Roboto', arial, sans-serif;
+}
+#favDialog[open],#favDialog-edit[open]{
+    animation: slide-up 0.4s ease-out;
+}
+
+#dialog-title,#dialog-title-edit{
+    color: rgb(var(--GG900-rgb));
+    font-size: 15px;
+    line-height: 24px;
+    margin-bottom: 16px;
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+/*改变遮罩样式*/
+#favDialog::backdrop, #favDialog-edit::backdrop{
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.field-container{
+    margin-bottom: 16px;
+}
+
+.field-title{
+    color: rgb(var(--GG700-rgb));
+    font-size: 10px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.focused{
+    color: rgb(26, 115, 232);
+}
+
+
+.input-container{
+    position: relative;
+}
+
+.field-input{
+    background-color: rgb(var(--GG100-rgb));
+    border: none;
+    border-radius: 4px;
+    caret-color: rgb(var(--GB600-rgb));
+    color: rgb(var(--GG900-rgb));
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 32px;
+    outline: none;
+    padding-inline-end: 8px;
+    padding-inline-start: 8px;
+    width: 100%;
+}
+
+.underline{
+    border-bottom: 2px solid rgb(26, 115, 232);
+    bottom: 0;
+    box-sizing: border-box;
+    left: 0;
+    margin: auto;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    width: 0;
+}
+input:focus + .underline{
+    opacity: 1;
+    width: 100%;
+    transition: width 180ms ease-out,opacity 120ms ease-in;
+}
+
+
+.buttons-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+
+button.paper {
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    min-height: 32px;
+    padding: 0 16px;
+    position: relative;
+    transition-duration: 200ms;
+    transition-property: background-color, color, box-shadow, border;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.paper:disabled {
+    transition: none;
+}
+
+button.paper.primary {
+    background-color: rgb(var(--GB600-rgb));
+    color: white;
+}
+
+html[darkmode=true] button.paper.primary {
+    background-color: rgb(var(--GB300-rgb));
+    color: rgb(var(--GG900-rgb));
+}
+
+button.paper.primary:disabled {
+    background-color: rgb(var(--GG100-rgb));
+    color: rgb(var(--GG600-rgb));
+}
+
+html[darkmode=true] button.paper.primary:disabled {
+    background-color: rgb(var(--GG800-rgb));
+    color: rgb(var(--GG600-rgb));
+}
+
+button.paper.primary:hover:not(:disabled) {
+    background-color: rgb(41, 123, 231);
+    box-shadow: 0 1px 2px 0 rgba(var(--GB500-rgb), 0.3),
+    0 1px 3px 1px rgba(var(--GB500-rgb), 0.15);
+}
+
+html[darkmode=true] button.paper.primary:hover:not(:disabled) {
+    background-color: rgb(133, 173, 238);
+}
+
+button.paper.primary:active:not(:disabled) {
+    box-shadow: 0 1px 2px 0 rgba(var(--GB500-rgb), 0.3),
+    0 3px 6px 2px rgba(var(--GB500-rgb), 0.15);
+}
+
+html[darkmode=true] button.paper.primary:active:not(:disabled) {
+    background-color: rgb(115, 160, 223);
+    box-shadow: 0 1px 2px 0 rgba(var(--GB500-rgb), 0.3),
+    0 3px 6px 2px rgba(var(--GB500-rgb), 0.15);
+}
+
+button.paper.secondary {
+    background-color: white;
+    border: 1px solid rgb(var(--GG300-rgb));
+    color: rgb(var(--GB600-rgb));
+}
+
+html[darkmode=true] button.paper.secondary {
+    background-color: transparent;
+    border-color: rgb(var(--GG700-rgb));
+    color: rgb(var(--GB300-rgb));
+}
+
+button.paper.secondary:disabled {
+    border-color: rgb(var(--GG100-rgb));
+    color: rgb(var(--GG600-rgb));
+}
+
+html[darkmode=true] button.paper.secondary:disabled {
+    border-color: rgb(var(--GG800-rgb));
+    color: rgb(var(--GG600-rgb));
+}
+
+button.paper.secondary:hover:not(:disabled) {
+    background-color: rgba(var(--GB500-rgb), 0.04);
+    border-color: rgb(var(--GB100-rgb));
+}
+
+html[darkmode=true] button.paper.secondary:hover:not(:disabled) {
+    background-color: rgba(var(--GB300-rgb), 0.04);
+    border-color: rgba(var(--GB300-rgb), 0.5);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3),
+    0 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+button.paper.secondary:active:not(:disabled) {
+    background-color: white;
+    border-color: white;
+    box-shadow: 0 1px 2px 0 rgba(var(--GG800-rgb), 0.3),
+    0 3px 6px 2px rgba(var(--GG800-rgb), 0.15);
+}
+
+html[darkmode=true] button.paper.secondary:active:not(:disabled) {
+    background-color: rgba(var(--GB300-rgb), 0.08);
+    border-color: rgba(var(--GB300-rgb), 0.5);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3),
+    0 3px 6px 2px rgba(0, 0, 0, 0.15);
+}

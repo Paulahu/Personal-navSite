@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <style type="text/css">
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="shortcut icon" type="image/x-icon" href="../static/images/logo.ico">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="add.css">
+    <title>Personal NavSite</title>
+</head>
+
+<body>
+    <div class="mainWrapper">
+        <!-- 标题 -->
+        <header class="siteHeader">
+            <div class="siteLogo">Personal NavSite</div>
+        </header>
+        <!-- 搜索框 -->
+        <section class="siteSearch">
+            <div class="searchWrapper">
+                <form class="searchForm" action="https://www.google.com/search" method="GET">
+                    <div class="searchLogo">
+                        <img src="../static/images/brands-and-logotypes.png" alt="">
+                    </div>
+                    <input type="text" name="q" placeholder="search on Google">
+                    <button type="submit">
+                        <svg class="icon">
+                            <use xlink:href="#icon-find"></use>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+        <!-- 导航item -->
+        <section class="siteItem">
+            <ul class="itemBox">
+<!--                <div class="itemContainer" draggable="true">-->
+<!--                    <a href="https://www.bilibili.com/" class="itemLinkBox" target="_blank">-->
+<!--                        <div class="itemWrapper">-->
+<!--                            <div class="itemLogo">-->
+<!--                                <img src="../static/images/world.png" alt="">-->
+<!--                            </div>-->
+<!--                            <div class="itemTitle">BiliBili</div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                    <button class="editButton">-->
+<!--                        <svg class="icon">-->
+<!--                            <use xlink:href="#icon-point"></use>-->
+<!--                        </svg>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="itemContainer" draggable="true">-->
+<!--                    <a href="https://www.bilibili.com/" class="itemLinkBox" target="_blank">-->
+<!--                        <div class="itemWrapper">-->
+<!--                            <div class="itemLogo">-->
+<!--                                <img src="../static/images/world.png" alt="">-->
+<!--                            </div>-->
+<!--                            <div class="itemTitle">BiliBili</div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                    <button class="editButton">-->
+<!--                        <svg class="icon">-->
+<!--                            <use xlink:href="#icon-point"></use>-->
+<!--                        </svg>-->
+<!--                    </button>-->
+<!--                </div>-->
+
+                <div class="itemContainer addButton addItem" draggable="true">
+                    <div class="itemLinkBox">
+                        <div class="itemWrapper">
+                            <div class="itemLogo">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-Addto"></use>
+                                </svg>
+                            </div>
+                            <div class="itemTitle">添加快捷方式</div>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </section>
+        <!-- 版权信息 -->
+        <footer class="siteFooter">
+            <div class="footerWrapper">
+                <span>copyright © 2020 Paula Hu All rights reserved.</span>
+            </div>
+        </footer>
+    </div>
+
+
+
+<!--添加快捷方式-->
+    <dialog id="favDialog">
+        <div id="dialog-title">添加快捷方式</div>
+        <form id="edit-form" action="" method="dialog">
+            <div id="title" class="field-container">
+                <label id="title-field-name" class="field-title title-name" aria-label="名称">名称</label>
+                <div class="input-container">
+                    <input id="title-field" class="field-input input-name" type="text" autocomplete="off" tabindex="0">
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div id="url" class="field-container">
+                <label id="url-field-name" class="field-title title-url" aria-label="网址">网址</label>
+                <div class="input-container">
+                    <input id="url-field" class="field-input input-url" type="text" autocomplete="off" spellcheck="false" dir="ltr" tabindex="0" required="">
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div class="buttons-container">
+        <span>
+          <button id="delete" class="paper secondary ripple" type="button" tabindex="0" title="删除" disabled="">删除</button>
+        </span>
+        <span>
+          <button id="cancel" value="cancel" class="paper secondary ripple" type="button" tabindex="0" title="取消" aria-label="取消">取消</button>
+          <button type="submit" id="done" class="paper primary ripple" tabindex="0" title="添加快捷方式" disabled aria-label="添加快捷方式">完成</button>
+        </span>
+            </div>
+        </form>
+    </dialog>
+
+<!--删除站点-->
+    <dialog id="favDialog-edit" >
+        <div id="dialog-title-edit">修改快捷方式</div>
+        <form id="edit-form-edit" action="">
+            <div id="title-edit" class="field-container">
+                <label id="title-field-name-edit" class="field-title title-name" aria-label="名称">名称</label>
+                <div class="input-container">
+                    <input id="title-field-edit" class="field-input input-name" type="text" autocomplete="off" tabindex="0" dir="ltr">
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div id="url-edit" class="field-container">
+                <label id="url-field-name-edit" class="field-title title-url" aria-label="网址">网址</label>
+                <div class="input-container">
+                    <input id="url-field-edit" class="field-input input-url" type="text" autocomplete="off" spellcheck="false" dir="ltr" tabindex="0" required="">
+                    <div class="underline"></div>
+                </div>
+            </div>
+            <div class="buttons-container">
+        <span>
+          <button id="delete-edit" class="paper secondary ripple" type="button" tabindex="0" title="删除" aria-label="删除">删除</button>
+        </span>
+                <span>
+          <button id="cancel-edit" class="paper secondary ripple" type="button" tabindex="0" title="取消" aria-label="取消">取消</button>
+          <button type="submit" id="done-edit" class="paper primary ripple" tabindex="0" title="修改快捷方式" aria-label="修改快捷方式">完成</button>
+        </span>
+            </div>
+        </form>
+    </dialog>
+
+    <script src="//at.alicdn.com/t/font_1763050_8jujgphs5fq.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+
+
+</body>
+
+</html>
