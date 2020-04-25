@@ -276,10 +276,13 @@ input:focus::-webkit-input-placeholder {
 /* 版权信息 */
 .siteFooter {
     min-width: 650px;
-    margin-top: 70px;
+    margin-top: 50px;
+    padding-top: 80px;
     display: flex;
     justify-content: center;
-    bottom: 15px;
+    position: fixed;
+    bottom: 20px;
+    /*right: calc(100% - 300px);*/
 }
 
 .footerWrapper {
