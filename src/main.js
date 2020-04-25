@@ -52,7 +52,6 @@ const $lastLi = $('.addItem')
 /**
  * 首次登陆渲染页面
  */
-debugger
 
 reload('async')
 

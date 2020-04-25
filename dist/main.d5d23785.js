@@ -172,7 +172,6 @@ var $lastLi = $('.addItem');
  * 首次登陆渲染页面
  */
 
-debugger;
 reload('async');
 /**
  * 弹窗动效
@@ -408,4 +407,4 @@ function createLi() {
   });
 }
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.ba9c7c75.js.map
+//# sourceMappingURL=main.d5d23785.js.map
