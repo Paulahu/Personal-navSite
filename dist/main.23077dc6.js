@@ -143,13 +143,14 @@ var addButton = document.querySelector('.addButton');
 var favDialog = document.querySelector('#favDialog'); // const editButtonOne = document.querySelectorAll('.editButton')
 
 var favDialogEdit = document.querySelector('#favDialog-edit');
+var $favDialogEdit = $('#favDialog-edit');
 var cancel = document.querySelector('#cancel');
 var cancelEdit = document.querySelector('#cancel-edit');
 var $inputNameEdit = $('#title-field-edit');
 var $inputUrlEdit = $('#url-field-edit');
 var $doneEdit = $('#done-edit');
 var $done = $('#done');
-var $deleteEdit = $('delete-edit');
+var $deleteEdit = $('#delete-edit');
 var x = localStorage.getItem('x');
 var xObject = JSON.parse(x);
 var hashMap = [{
@@ -211,35 +212,7 @@ addButton.addEventListener('click', function onOpen() {
   }
 
   ;
-}); //点击编辑按钮出现dialog
-
-action();
-
-function action() {
-  document.querySelectorAll('.editButton').forEach(function (item, index) {
-    item.addEventListener('click', function onOpen() {
-      if (typeof favDialogEdit.showModal === "function") {
-        favDialogEdit.showModal();
-      } else {
-        alert("The dialog API is not supported by this browser");
-      } //获取原始值
-
-
-      var idValue = item.id;
-      console.log('clicked div:' + idValue);
-      getHistoryValue(idValue);
-      return idValue; //编辑弹窗： 点击完成重新渲染节点
-      // $doneEdit.on('click', () => {
-      //     reload('edit',idValue)
-      // })
-      //编辑弹窗： 点击删除重新渲染
-      // $deleteEdit.on('click',() => {
-      //     reload('remove',idValue)
-      // })
-    });
-  });
-} //创建弹窗：点击取消关闭窗口
-
+}); //创建弹窗：点击取消关闭窗口
 
 cancel.addEventListener('click', function (e) {
   favDialog.close();
@@ -268,16 +241,16 @@ $inputUrlEdit.change(function () {
 $done.on('click', function () {
   reload('create');
 }); //编辑弹窗： 点击完成重新渲染节点
+// $doneEdit.on('click', () => {
+//     let index = action()
+//     reload('edit',index)
+// })
+//编辑弹窗： 点击删除重新渲染
+// $deleteEdit.on('click',() => {
+//     let index = action()
+//     reload('remove',index)
+// })
 
-$doneEdit.on('click', function () {
-  var index = action();
-  reload('edit', index);
-}); //编辑弹窗： 点击删除重新渲染
-
-$deleteEdit.on('click', function () {
-  var index = action();
-  reload('remove', index);
-});
 /**
  *
  *  获取localstorage中的值
@@ -323,18 +296,6 @@ var getHistoryValue = function getHistoryValue(index) {
   document.querySelector('#url-field-edit').value = url;
 };
 /**
- *  获得元素索引
- */
-// const getIndex = () => {
-//     document.querySelectorAll('.editButton').forEach((item,index) => {
-//         item.addEventListener('click',() => {
-//             let idValue = item.id
-//             return idValue
-//         })
-//     })
-// }
-
-/**
  * 重置
  * ---
  * @param {String} type   类型
@@ -346,12 +307,14 @@ var getHistoryValue = function getHistoryValue(index) {
 function reload(type, index) {
   if (type === 'async') {
     asyncLocalStorage(false);
-    createLi();
-  } else if (type === 'remove') {
+  }
+
+  if (type === 'remove') {
     hashMap.splice(index, 1);
     asyncLocalStorage(true);
-    createLi();
-  } else if (type === 'create') {
+  }
+
+  if (type === 'create') {
     var url = $inputUrl.val();
     var name = $inputName.val();
 
@@ -364,8 +327,9 @@ function reload(type, index) {
       url: url
     });
     asyncLocalStorage(true);
-    createLi();
-  } else if (type === 'edit') {
+  }
+
+  if (type === 'edit') {
     var _url = $inputUrlEdit.val();
 
     var _name = $inputNameEdit.val();
@@ -382,8 +346,34 @@ function reload(type, index) {
     });
     console.log(hashMap);
     asyncLocalStorage(true);
-    createLi();
   }
+
+  createLi(); //点击编辑按钮出现dialog
+
+  document.querySelectorAll('.editButton').forEach(function (item, index) {
+    item.addEventListener('click', function onOpen() {
+      if (typeof favDialogEdit.showModal === "function") {
+        favDialogEdit.showModal();
+      } else {
+        alert("The dialog API is not supported by this browser");
+      } //获取原始值
+
+
+      var idValue = item.id;
+      console.log('clicked div:' + idValue);
+      getHistoryValue(idValue); //编辑弹窗： 点击完成重新渲染节点
+
+      $doneEdit.on('click', function () {
+        hashMap.splice(idValue, 1);
+        asyncLocalStorage(true);
+      }); //编辑弹窗： 点击删除重新渲染
+
+      $deleteEdit.on('click', function () {
+        reload('remove', idValue);
+        favDialogEdit.close();
+      });
+    });
+  });
 }
 /**
  *
@@ -394,15 +384,28 @@ function reload(type, index) {
 function createLi() {
   $itemBox.find('.item').remove();
   hashMap.forEach(function (node, index) {
-    var $li = $("\n                <div class=\"itemContainer item\" draggable=\"true\" >\n                    <div class=\"itemLinkBox\">\n                        <div class=\"itemWrapper\">\n                            <div class=\"itemLogo\">\n                                <svg class=\"icon\">\n                                    <use xlink:href=\"#icon-valentine_-cupid-love-heart-god\"></use>\n                                </svg>\n                            </div>\n                            <div class=\"itemTitle\">".concat(node.name, "</div>\n                        </div>\n                    </div>\n                    <button class=\"editButton\" id=\"").concat(index, "\">\n                        <svg class=\"icon\">\n                            <use xlink:href=\"#icon-point\"></use>\n                        </svg>\n                    </button>\n                </div>\n        ")).insertBefore($lastLi); //item点击动效
+    var $li = $("\n                <div class=\"itemContainer item\" draggable=\"true\" >\n                    <div class=\"itemLinkBox\">\n                        <div class=\"itemWrapper\">\n                            <div class=\"itemLogo\">\n                                <svg class=\"icon\">\n                                    <use xlink:href=\"#icon-valentine_-cupid-love-heart-god\"></use>\n                                </svg>\n                            </div>\n                            <div class=\"itemTitle\">".concat(node.name, "</div>\n                        </div>\n                    </div>\n                    <button class=\"editButton\" id=\"").concat(index, "\"  type=\"button\" >\n                        <svg class=\"icon\">\n                            <use xlink:href=\"#icon-point\"></use>\n                        </svg>\n                    </button>\n                </div>\n        ")).insertBefore($lastLi); //item点击动效
 
     $li.on('click', function () {
       window.open(node.url);
     });
     $li.on('click', '.editButton', function (e) {
       e.stopPropagation(); // 阻止冒泡
+      // $favDialogEdit[0].showModal()
+      // console.log(index);
+      // console.log('clicked div:' + index);
+      // getHistoryValue(index)
+      //
+      // $deleteEdit.on('click',() => {
+      //     reload('remove',index)
+      //     $favDialogEdit[0].close()
+      // })
+      //
+      // $doneEdit.on('click', () => {
+      //     reload('edit',index)
+      // })
     });
   });
 }
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.03817368.js.map
+//# sourceMappingURL=main.23077dc6.js.map

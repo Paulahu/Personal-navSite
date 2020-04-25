@@ -276,10 +276,9 @@ input:focus::-webkit-input-placeholder {
 /* 版权信息 */
 .siteFooter {
     min-width: 650px;
-    margin-bottom: 20px;
+    margin-top: 70px;
     display: flex;
     justify-content: center;
-    position: fixed;
     bottom: 15px;
 }
 

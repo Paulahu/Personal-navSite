@@ -1,4 +1,3 @@
-
 /**
  * 搜索框动效
  */
@@ -27,6 +26,7 @@ const favDialog = document.querySelector('#favDialog')
 
 // const editButtonOne = document.querySelectorAll('.editButton')
 const favDialogEdit = document.querySelector('#favDialog-edit')
+const $favDialogEdit = $('#favDialog-edit')
 
 const cancel = document.querySelector('#cancel')
 const cancelEdit = document.querySelector('#cancel-edit')
@@ -36,7 +36,7 @@ const $inputUrlEdit =$('#url-field-edit')
 const $doneEdit = $('#done-edit')
 
 const $done = $('#done')
-const $deleteEdit = $('delete-edit')
+const $deleteEdit = $('#delete-edit')
 
 const x = localStorage.getItem('x')
 const xObject = JSON.parse(x)
@@ -102,38 +102,6 @@ addButton.addEventListener('click', function onOpen() {
 });
 
 
-
-
-//点击编辑按钮出现dialog
-action()
-function action() {
-    document.querySelectorAll('.editButton').forEach((item,index)=> {
-        item.addEventListener('click', function onOpen() {
-            if (typeof favDialogEdit.showModal === "function") {
-                favDialogEdit.showModal();
-            } else {
-                alert("The dialog API is not supported by this browser");
-            }
-            //获取原始值
-            let idValue = item.id
-            console.log('clicked div:' + idValue);
-            getHistoryValue(idValue)
-            return idValue
-            //编辑弹窗： 点击完成重新渲染节点
-            // $doneEdit.on('click', () => {
-            //     reload('edit',idValue)
-            // })
-
-            //编辑弹窗： 点击删除重新渲染
-            // $deleteEdit.on('click',() => {
-            //     reload('remove',idValue)
-            // })
-        })
-    })
-}
-
-
-
 //创建弹窗：点击取消关闭窗口
 cancel.addEventListener('click',(e)=>{
     favDialog.close();
@@ -169,16 +137,16 @@ $done.on('click', () => {
 })
 
 //编辑弹窗： 点击完成重新渲染节点
-$doneEdit.on('click', () => {
-    let index = action()
-    reload('edit',index)
-})
+// $doneEdit.on('click', () => {
+//     let index = action()
+//     reload('edit',index)
+// })
 
 //编辑弹窗： 点击删除重新渲染
-$deleteEdit.on('click',() => {
-    let index = action()
-    reload('remove',index)
-})
+// $deleteEdit.on('click',() => {
+//     let index = action()
+//     reload('remove',index)
+// })
 
 
 
@@ -223,19 +191,6 @@ const getHistoryValue = (index) => {
     document.querySelector('#url-field-edit').value = url
 }
 
-/**
- *  获得元素索引
- */
-// const getIndex = () => {
-//     document.querySelectorAll('.editButton').forEach((item,index) => {
-//         item.addEventListener('click',() => {
-//             let idValue = item.id
-//             return idValue
-//         })
-//     })
-// }
-
-
 
 /**
  * 重置
@@ -248,12 +203,12 @@ const getHistoryValue = (index) => {
 function reload(type,index) {
     if (type === 'async'){
         asyncLocalStorage(false)
-        createLi()
-    }else if(type === 'remove'){
+    }
+    if(type === 'remove'){
         hashMap.splice(index,1)
         asyncLocalStorage(true)
-        createLi()
-    }else if(type === 'create'){
+    }
+    if(type === 'create'){
         let url = $inputUrl.val()
         let name = $inputName.val()
         if (url.indexOf('http') !== 0 && url.length!==0) {
@@ -264,8 +219,8 @@ function reload(type,index) {
             url: url
         })
         asyncLocalStorage(true)
-        createLi()
-    }else if(type === 'edit'){
+    }
+    if(type === 'edit'){
         let url = $inputUrlEdit.val()
         let name = $inputNameEdit.val()
         if (url.indexOf('http') !== 0 && url.length!==0) {
@@ -279,10 +234,36 @@ function reload(type,index) {
         })
         console.log(hashMap);
         asyncLocalStorage(true)
-        createLi()
     }
-}
+    createLi()
 
+    //点击编辑按钮出现dialog
+    document.querySelectorAll('.editButton').forEach((item,index)=> {
+        item.addEventListener('click', function onOpen() {
+            if (typeof favDialogEdit.showModal === "function") {
+                favDialogEdit.showModal();
+            } else {
+                alert("The dialog API is not supported by this browser");
+            }
+            //获取原始值
+            let idValue = item.id
+            console.log('clicked div:' + idValue);
+            getHistoryValue(idValue)
+
+            //编辑弹窗： 点击完成重新渲染节点
+            $doneEdit.on('click', () => {
+                hashMap.splice(idValue,1)
+                asyncLocalStorage(true)
+            })
+
+            //编辑弹窗： 点击删除重新渲染
+            $deleteEdit.on('click',() => {
+                reload('remove',idValue)
+                favDialogEdit.close();
+            })
+        })
+    })
+}
 
 
 /**
@@ -290,10 +271,10 @@ function reload(type,index) {
  * 创建节点
  */
 
-
 function createLi () {
     $itemBox.find('.item').remove()
     hashMap.forEach((node, index) => {
+
         const $li = $(`
                 <div class="itemContainer item" draggable="true" >
                     <div class="itemLinkBox">
@@ -306,13 +287,14 @@ function createLi () {
                             <div class="itemTitle">${node.name}</div>
                         </div>
                     </div>
-                    <button class="editButton" id="${index}">
+                    <button class="editButton" id="${index}"  type="button" >
                         <svg class="icon">
                             <use xlink:href="#icon-point"></use>
                         </svg>
                     </button>
                 </div>
         `).insertBefore($lastLi)
+
         //item点击动效
         $li.on('click', () => {
             window.open(node.url)
@@ -320,7 +302,27 @@ function createLi () {
 
         $li.on('click', '.editButton', (e) => {
             e.stopPropagation() // 阻止冒泡
+            // $favDialogEdit[0].showModal()
+            // console.log(index);
+            // console.log('clicked div:' + index);
+            // getHistoryValue(index)
+            //
+            // $deleteEdit.on('click',() => {
+            //     reload('remove',index)
+            //     $favDialogEdit[0].close()
+            // })
+            //
+            // $doneEdit.on('click', () => {
+            //     reload('edit',index)
+            // })
         })
+
     })
 }
+
+
+
+
+
+
 
