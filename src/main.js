@@ -32,7 +32,7 @@ const cancel = document.querySelector('#cancel')
 const cancelEdit = document.querySelector('#cancel-edit')
 
 const $inputNameEdit = $('#title-field-edit')
-const $inputUrlEdit =$('#url-field-edit')
+const $inputUrlEdit = $('#url-field-edit')
 const $doneEdit = $('#done-edit')
 
 const $done = $('#done')
@@ -40,11 +40,23 @@ const $deleteEdit = $('#delete-edit')
 
 const x = localStorage.getItem('x')
 const xObject = JSON.parse(x)
-var hashMap = [
-    {name: 'stackoverflow', url: 'https://stackoverflow.com'},
-    {name: 'github', url: 'https://github.com'},
-    {name: '新浪微博', url: 'https://weibo.com'},
-    {name: '豆瓣', url: 'https://www.douban.com'}]
+var hashMap = [{
+        name: 'stackoverflow',
+        url: 'https://stackoverflow.com'
+    },
+    {
+        name: 'github',
+        url: 'https://github.com'
+    },
+    {
+        name: '新浪微博',
+        url: 'https://weibo.com'
+    },
+    {
+        name: '豆瓣',
+        url: 'https://www.douban.com'
+    }
+]
 
 const $itemBox = $('.itemBox')
 const $lastLi = $('.addItem')
@@ -60,35 +72,35 @@ reload('async')
  * 弹窗动效
  */
 //输入框focus效果
-$inputName.focus(() =>{
+$inputName.focus(() => {
     $titleName.addClass('focused')
 })
 
-$inputName.blur(() =>{
+$inputName.blur(() => {
     $titleName.removeClass('focused')
 })
 
-$inputUrl.focus(() =>{
+$inputUrl.focus(() => {
     $titleUrl.addClass('focused')
 })
 
-$inputUrl.blur(() =>{
+$inputUrl.blur(() => {
     $titleUrl.removeClass('focused')
 })
 
-$inputNameEdit.focus(() =>{
+$inputNameEdit.focus(() => {
     $titleName.addClass('focused')
 })
 
-$inputNameEdit.blur(() =>{
+$inputNameEdit.blur(() => {
     $titleName.removeClass('focused')
 })
 
-$inputUrlEdit.focus(() =>{
+$inputUrlEdit.focus(() => {
     $titleUrl.addClass('focused')
 })
 
-$inputUrlEdit.blur(() =>{
+$inputUrlEdit.blur(() => {
     $titleUrl.removeClass('focused')
 })
 
@@ -103,30 +115,30 @@ addButton.addEventListener('click', function onOpen() {
 
 
 //创建弹窗：点击取消关闭窗口
-cancel.addEventListener('click',(e)=>{
+cancel.addEventListener('click', (e) => {
     favDialog.close();
 })
 
 //编辑弹窗：点击取消关闭窗口
-cancelEdit.addEventListener('click',(e)=>{
+cancelEdit.addEventListener('click', (e) => {
     favDialogEdit.close();
 })
 
 //创建弹窗：点击完成动效
-$inputUrl.change(()=>{
-    if ($inputUrl.val().length > 0 ){
+$inputUrl.change(() => {
+    if ($inputUrl.val().length > 0) {
         $done.removeAttr('disabled')
-    }else if ($inputUrl.val().length === 0){
-        $done.attr('disabled','disabled')
+    } else if ($inputUrl.val().length === 0) {
+        $done.attr('disabled', 'disabled')
     }
 })
 
 //编辑弹窗：点击完成动效
-$inputUrlEdit.change(()=>{
-    if ($inputUrlEdit.val().length > 0 ){
+$inputUrlEdit.change(() => {
+    if ($inputUrlEdit.val().length > 0) {
         $doneEdit.removeAttr('disabled')
-    }else if ($inputUrlEdit.val().length === 0){
-        $doneEdit.attr('disabled','disabled')
+    } else if ($inputUrlEdit.val().length === 0) {
+        $doneEdit.attr('disabled', 'disabled')
     }
 })
 
@@ -137,17 +149,19 @@ $done.on('click', () => {
 })
 
 //编辑弹窗： 点击完成重新渲染节点
-// $doneEdit.on('click', () => {
-//     let index = action()
-//     reload('edit',index)
-// })
+$doneEdit.on('click', (e) => {
+
+    hashMap.splice(i, 1)
+    asyncLocalStorage(true)
+})
 
 //编辑弹窗： 点击删除重新渲染
-// $deleteEdit.on('click',() => {
-//     let index = action()
-//     reload('remove',index)
-// })
-
+$deleteEdit.on('click', (e) => {
+    console.log(e)
+    console.log('删除:' + i)
+    reload('remove', i)
+    favDialogEdit.close();
+})
 
 
 /**
@@ -155,9 +169,9 @@ $done.on('click', () => {
  *  获取localstorage中的值
  */
 function getLocalStorage() {
-    if (x){
-        return  xObject
-    }else{
+    if (x) {
+        return xObject
+    } else {
         return hashMap
     }
 }
@@ -185,7 +199,7 @@ const getHistoryValue = (index) => {
     let url = content.url
     let name = content.name
     document.querySelector('#title-field-edit').value = name
-    if (url.indexOf('http') !== 0 && url.length!==0) {
+    if (url.indexOf('http') !== 0 && url.length !== 0) {
         url = 'https://' + url
     }
     document.querySelector('#url-field-edit').value = url
@@ -200,18 +214,20 @@ const getHistoryValue = (index) => {
  * ---
  */
 
-function reload(type,index) {
-    if (type === 'async'){
+let i = null
+
+function reload(type, index) {
+    if (type === 'async') {
         asyncLocalStorage(false)
     }
-    if(type === 'remove'){
-        hashMap.splice(index,1)
+    if (type === 'remove') {
+        hashMap.splice(index, 1)
         asyncLocalStorage(true)
     }
-    if(type === 'create'){
+    if (type === 'create') {
         let url = $inputUrl.val()
         let name = $inputName.val()
-        if (url.indexOf('http') !== 0 && url.length!==0) {
+        if (url.indexOf('http') !== 0 && url.length !== 0) {
             url = 'https://' + url
         }
         hashMap.push({
@@ -220,15 +236,15 @@ function reload(type,index) {
         })
         asyncLocalStorage(true)
     }
-    if(type === 'edit'){
+    if (type === 'edit') {
         let url = $inputUrlEdit.val()
         let name = $inputNameEdit.val()
-        if (url.indexOf('http') !== 0 && url.length!==0) {
+        if (url.indexOf('http') !== 0 && url.length !== 0) {
             url = 'https://' + url
         }
-        hashMap.splice(index,1)
+        hashMap.splice(index, 1)
         console.log(hashMap.splice(index, 1));
-        hashMap.splice(index,0,{
+        hashMap.splice(index, 0, {
             name: name,
             url: url
         })
@@ -236,42 +252,14 @@ function reload(type,index) {
         asyncLocalStorage(true)
     }
     createLi()
-
-    //点击编辑按钮出现dialog
-    document.querySelectorAll('.editButton').forEach((item,index)=> {
-        item.addEventListener('click', function onOpen() {
-            if (typeof favDialogEdit.showModal === "function") {
-                favDialogEdit.showModal();
-            } else {
-                alert("The dialog API is not supported by this browser");
-            }
-            //获取原始值
-            let idValue = item.id
-            console.log('clicked div:' + idValue);
-            getHistoryValue(idValue)
-
-            //编辑弹窗： 点击完成重新渲染节点
-            $doneEdit.on('click', () => {
-                hashMap.splice(idValue,1)
-                asyncLocalStorage(true)
-            })
-
-            //编辑弹窗： 点击删除重新渲染
-            $deleteEdit.on('click',() => {
-                reload('remove',idValue)
-                favDialogEdit.close();
-            })
-        })
-    })
 }
-
 
 /**
  *
  * 创建节点
  */
 
-function createLi () {
+function createLi() {
     $itemBox.find('.item').remove()
     hashMap.forEach((node, index) => {
 
@@ -287,7 +275,7 @@ function createLi () {
                             <div class="itemTitle">${node.name}</div>
                         </div>
                     </div>
-                    <button class="editButton" id="${index}"  type="button" >
+                    <button class="editButton" id="${index}"  type="button"">
                         <svg class="icon">
                             <use xlink:href="#icon-point"></use>
                         </svg>
@@ -301,28 +289,16 @@ function createLi () {
         })
 
         $li.on('click', '.editButton', (e) => {
+            console.log(e)
             e.stopPropagation() // 阻止冒泡
-            // $favDialogEdit[0].showModal()
-            // console.log(index);
-            // console.log('clicked div:' + index);
-            // getHistoryValue(index)
-            //
-            // $deleteEdit.on('click',() => {
-            //     reload('remove',index)
-            //     $favDialogEdit[0].close()
-            // })
-            //
-            // $doneEdit.on('click', () => {
-            //     reload('edit',index)
-            // })
+            $favDialogEdit[0].showModal()
+            console.log(index);
+            console.log('clicked div:' + index);
+            getHistoryValue(index)
+            i = index
         })
 
     })
+
+
 }
-
-
-
-
-
-
-

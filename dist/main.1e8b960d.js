@@ -240,16 +240,18 @@ $inputUrlEdit.change(function () {
 $done.on('click', function () {
   reload('create');
 }); //编辑弹窗： 点击完成重新渲染节点
-// $doneEdit.on('click', () => {
-//     let index = action()
-//     reload('edit',index)
-// })
-//编辑弹窗： 点击删除重新渲染
-// $deleteEdit.on('click',() => {
-//     let index = action()
-//     reload('remove',index)
-// })
 
+$doneEdit.on('click', function (e) {
+  hashMap.splice(i, 1);
+  asyncLocalStorage(true);
+}); //编辑弹窗： 点击删除重新渲染
+
+$deleteEdit.on('click', function (e) {
+  console.log(e);
+  console.log('删除:' + i);
+  reload('remove', i);
+  favDialogEdit.close();
+});
 /**
  *
  *  获取localstorage中的值
@@ -303,6 +305,8 @@ var getHistoryValue = function getHistoryValue(index) {
  */
 
 
+var i = null;
+
 function reload(type, index) {
   if (type === 'async') {
     asyncLocalStorage(false);
@@ -347,32 +351,7 @@ function reload(type, index) {
     asyncLocalStorage(true);
   }
 
-  createLi(); //点击编辑按钮出现dialog
-
-  document.querySelectorAll('.editButton').forEach(function (item, index) {
-    item.addEventListener('click', function onOpen() {
-      if (typeof favDialogEdit.showModal === "function") {
-        favDialogEdit.showModal();
-      } else {
-        alert("The dialog API is not supported by this browser");
-      } //获取原始值
-
-
-      var idValue = item.id;
-      console.log('clicked div:' + idValue);
-      getHistoryValue(idValue); //编辑弹窗： 点击完成重新渲染节点
-
-      $doneEdit.on('click', function () {
-        hashMap.splice(idValue, 1);
-        asyncLocalStorage(true);
-      }); //编辑弹窗： 点击删除重新渲染
-
-      $deleteEdit.on('click', function () {
-        reload('remove', idValue);
-        favDialogEdit.close();
-      });
-    });
-  });
+  createLi();
 }
 /**
  *
@@ -383,28 +362,22 @@ function reload(type, index) {
 function createLi() {
   $itemBox.find('.item').remove();
   hashMap.forEach(function (node, index) {
-    var $li = $("\n                <div class=\"itemContainer item\" draggable=\"true\" >\n                    <div class=\"itemLinkBox\">\n                        <div class=\"itemWrapper\">\n                            <div class=\"itemLogo\">\n                                <svg class=\"icon\">\n                                    <use xlink:href=\"#icon-valentine_-cupid-love-heart-god\"></use>\n                                </svg>\n                            </div>\n                            <div class=\"itemTitle\">".concat(node.name, "</div>\n                        </div>\n                    </div>\n                    <button class=\"editButton\" id=\"").concat(index, "\"  type=\"button\" >\n                        <svg class=\"icon\">\n                            <use xlink:href=\"#icon-point\"></use>\n                        </svg>\n                    </button>\n                </div>\n        ")).insertBefore($lastLi); //item点击动效
+    var $li = $("\n                <div class=\"itemContainer item\" draggable=\"true\" >\n                    <div class=\"itemLinkBox\">\n                        <div class=\"itemWrapper\">\n                            <div class=\"itemLogo\">\n                                <svg class=\"icon\">\n                                    <use xlink:href=\"#icon-valentine_-cupid-love-heart-god\"></use>\n                                </svg>\n                            </div>\n                            <div class=\"itemTitle\">".concat(node.name, "</div>\n                        </div>\n                    </div>\n                    <button class=\"editButton\" id=\"").concat(index, "\"  type=\"button\"\">\n                        <svg class=\"icon\">\n                            <use xlink:href=\"#icon-point\"></use>\n                        </svg>\n                    </button>\n                </div>\n        ")).insertBefore($lastLi); //item点击动效
 
     $li.on('click', function () {
       window.open(node.url);
     });
     $li.on('click', '.editButton', function (e) {
+      console.log(e);
       e.stopPropagation(); // 阻止冒泡
-      // $favDialogEdit[0].showModal()
-      // console.log(index);
-      // console.log('clicked div:' + index);
-      // getHistoryValue(index)
-      //
-      // $deleteEdit.on('click',() => {
-      //     reload('remove',index)
-      //     $favDialogEdit[0].close()
-      // })
-      //
-      // $doneEdit.on('click', () => {
-      //     reload('edit',index)
-      // })
+
+      $favDialogEdit[0].showModal();
+      console.log(index);
+      console.log('clicked div:' + index);
+      getHistoryValue(index);
+      i = index;
     });
   });
 }
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.d5d23785.js.map
+//# sourceMappingURL=main.1e8b960d.js.map
