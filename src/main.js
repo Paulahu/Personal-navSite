@@ -125,7 +125,8 @@ cancelEdit.addEventListener('click', (e) => {
 })
 
 //创建弹窗：点击完成动效
-$inputUrl.change(() => {
+$inputUrl.keydown(() => {
+    console.log('111')
     if ($inputUrl.val().length > 0) {
         $done.removeAttr('disabled')
     } else if ($inputUrl.val().length === 0) {
@@ -134,7 +135,7 @@ $inputUrl.change(() => {
 })
 
 //编辑弹窗：点击完成动效
-$inputUrlEdit.change(() => {
+$inputUrlEdit.keydown(() => {
     if ($inputUrlEdit.val().length > 0) {
         $doneEdit.removeAttr('disabled')
     } else if ($inputUrlEdit.val().length === 0) {
