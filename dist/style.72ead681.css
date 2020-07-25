@@ -47,7 +47,7 @@ input {
 body {
     /* background-position: center center; */
     background-image: url(1.508f0390.jpg);
-    background-size: 1560px 878px;
+    /* background-size: 1560px 878px; */
 }
 
 .mainWrapper {
@@ -290,4 +290,4 @@ input:focus::-webkit-input-placeholder {
     font-size: 0.9em
 }
 
-/*# sourceMappingURL=style.72d21ee3.css.map */
+/*# sourceMappingURL=style.72ead681.css.map */
