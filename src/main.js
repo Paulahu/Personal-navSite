@@ -21,6 +21,11 @@ const $inputUrl = $('.input-url')
 const $titleName = $('.title-name')
 const $titleUrl = $('.title-url')
 
+const inputName = document.querySelector('#title-field')
+const inputUrl = document.querySelector('#url-field')
+
+
+
 const addButton = document.querySelector('.addButton')
 const favDialog = document.querySelector('#favDialog')
 
@@ -106,11 +111,15 @@ $inputUrlEdit.blur(() => {
 
 //点击添加按钮出现dialog
 addButton.addEventListener('click', function onOpen() {
+
     if (typeof favDialog.showModal === "function") {
         favDialog.showModal();
     } else {
         alert("The dialog API is not supported by this browser");
     };
+    console.log(inputName.value, inputUrl.value)
+    inputName.value = ''
+    inputUrl.value = ''
 });
 
 

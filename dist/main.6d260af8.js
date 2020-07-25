@@ -139,6 +139,8 @@ var $inputName = $('.input-name');
 var $inputUrl = $('.input-url');
 var $titleName = $('.title-name');
 var $titleUrl = $('.title-url');
+var inputName = document.querySelector('#title-field');
+var inputUrl = document.querySelector('#url-field');
 var addButton = document.querySelector('.addButton');
 var favDialog = document.querySelector('#favDialog'); // const editButtonOne = document.querySelectorAll('.editButton')
 
@@ -211,6 +213,9 @@ addButton.addEventListener('click', function onOpen() {
   }
 
   ;
+  console.log(inputName.value, inputUrl.value);
+  inputName.value = '';
+  inputUrl.value = '';
 }); //创建弹窗：点击取消关闭窗口
 
 cancel.addEventListener('click', function (e) {
@@ -221,7 +226,9 @@ cancelEdit.addEventListener('click', function (e) {
   favDialogEdit.close();
 }); //创建弹窗：点击完成动效
 
-$inputUrl.change(function () {
+$inputUrl.keydown(function () {
+  console.log('111');
+
   if ($inputUrl.val().length > 0) {
     $done.removeAttr('disabled');
   } else if ($inputUrl.val().length === 0) {
@@ -229,7 +236,7 @@ $inputUrl.change(function () {
   }
 }); //编辑弹窗：点击完成动效
 
-$inputUrlEdit.change(function () {
+$inputUrlEdit.keydown(function () {
   if ($inputUrlEdit.val().length > 0) {
     $doneEdit.removeAttr('disabled');
   } else if ($inputUrlEdit.val().length === 0) {
@@ -380,4 +387,4 @@ function createLi() {
   });
 }
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.1e8b960d.js.map
+//# sourceMappingURL=main.6d260af8.js.map
