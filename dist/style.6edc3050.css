@@ -299,18 +299,21 @@ input:focus::-webkit-input-placeholder {
 
     .siteHeader {
         width: 100vw;
-
+        height: inherit;
     }
 
     .siteLogo {
         height: 2em;
         font-size: 3em;
-        margin: 2em;
+        margin: 2em 2em 1em 2em;
+        padding: 0;
     }
 
     .siteItem {
         margin-top: 1em;
-        width: 100vw;
+        width: 336px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .searchForm {
@@ -322,8 +325,12 @@ input:focus::-webkit-input-placeholder {
         width: 100vw;
         margin: 0;
         position: static;
-        padding: 1em 0;
+        padding: 3em 0 1em;
+    }
+
+    .editButton {
+        visibility: visible;
     }
 }
 
-/*# sourceMappingURL=style.316c0b79.css.map */
+/*# sourceMappingURL=style.6edc3050.css.map */
