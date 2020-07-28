@@ -47,11 +47,12 @@ input {
 body {
     /* background-position: center center; */
     background-image: url(../static/images/1.jpg);
+    min-height: 100vh;
     /* background-size: 1560px 878px; */
 }
 
 .mainWrapper {
-    max-width: 650px;
+    width: 650px;
     min-height: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -59,7 +60,7 @@ body {
 
 /* 标题 */
 .siteHeader {
-    min-width: 650px;
+    width: 650px;
     border: 1px rgb(0, 0, 0, 0) solid;
     height: 285px;
 }
@@ -117,7 +118,7 @@ body {
     cursor: text;
     height: 44px;
     line-height: 21px;
-    min-width: 584px;
+    width: 584px;
     margin: 0 auto;
     position: relative;
 }
@@ -183,7 +184,7 @@ input:focus::-webkit-input-placeholder {
 /* 导航item */
 .siteItem {
     margin-top: 50px;
-    min-width: 650px
+    width: 650px
 }
 
 .itemBox {
@@ -275,7 +276,7 @@ input:focus::-webkit-input-placeholder {
 
 /* 版权信息 */
 .siteFooter {
-    min-width: 650px;
+    width: 650px;
     margin-top: 50px;
     padding-top: 80px;
     display: flex;
@@ -288,4 +289,39 @@ input:focus::-webkit-input-placeholder {
 .footerWrapper {
     color: rgba(222, 230, 236, 0.842);
     font-size: 0.9em
+}
+
+
+@media (max-width: 600px) {
+    .mainWrapper {
+        width: 100vw;
+    }
+
+    .siteHeader {
+        width: 100vw;
+
+    }
+
+    .siteLogo {
+        height: 2em;
+        font-size: 3em;
+        margin: 2em;
+    }
+
+    .siteItem {
+        margin-top: 1em;
+        width: 100vw;
+    }
+
+    .searchForm {
+        width: inherit;
+    }
+
+
+    .siteFooter {
+        width: 100vw;
+        margin: 0;
+        position: static;
+        padding: 1em 0;
+    }
 }
