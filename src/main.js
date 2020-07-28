@@ -60,6 +60,14 @@ var hashMap = [{
     {
         name: '豆瓣',
         url: 'https://www.douban.com'
+    },
+    {
+        name: 'Bilibili',
+        url: 'https://www.bilibili.com/'
+    },
+    {
+        name: '知乎',
+        url: 'https://www.zhihu.com/'
     }
 ]
 

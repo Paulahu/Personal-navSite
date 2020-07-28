@@ -167,6 +167,12 @@ var hashMap = [{
 }, {
   name: '豆瓣',
   url: 'https://www.douban.com'
+}, {
+  name: 'Bilibili',
+  url: 'https://www.bilibili.com/'
+}, {
+  name: '知乎',
+  url: 'https://www.zhihu.com/'
 }];
 var $itemBox = $('.itemBox');
 var $lastLi = $('.addItem');
@@ -387,4 +393,4 @@ function createLi() {
   });
 }
 },{}]},{},["epB2"], null)
-//# sourceMappingURL=main.6d260af8.js.map
+//# sourceMappingURL=main.82fc6e1f.js.map
